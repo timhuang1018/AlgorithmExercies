@@ -6,38 +6,44 @@ package array;
  * Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
  */
 public class MultiplyStrings {
-    //TODO not solved yet, have overflow problem
+
     public static String multiply(String num1, String num2) {
-        long digits = 1;
-        long result = 0;
-        System.out.println(Long.MAX_VALUE);
+        int[] result = new int[num1.length()+num2.length()];
         for (int i = num1.length()-1;i>=0;i--){
-            long multiplier = Character.getNumericValue(num1.charAt(i)) * digits;
-            System.out.println("multiplier:"+multiplier + " head:"+Character.getNumericValue(num1.charAt(i)));
-            int innerDigit = 1;
+            int multiplier = Character.getNumericValue(num1.charAt(i));
             for (int j = num2.length()-1;j>=0;j--){
-                long sub = multiplier * Character.getNumericValue(num2.charAt(j)) * innerDigit;
-                innerDigit *= 10;
-                result += sub;
-                System.out.println("i:"+i+" j:"+j+" sub:"+sub+" result:" +result);
+                int sub = multiplier * Character.getNumericValue(num2.charAt(j)) + result[i + j + 1];
+                result[i + j] += sub / 10;
+                result[i + j + 1] = sub % 10;
             }
-            digits *= 10;
         }
-        return String.valueOf(result);
+        StringBuilder sb = new StringBuilder();
+        for (int x: result){
+            if (!(sb.length()==0 && x==0)) sb.append(x);
+        }
+        return sb.length()==0 ? "0" : sb.toString();
     }
 
     public static void main(String[] args) {
-        multiply(
-                "123456789",
-                "987654321"
+//        String t1 = multiply(
+//                "123456789",
+//                "987654321"
+//        );
+//        System.out.println(t1);
+        String t2 = multiply(
+                "123",
+                "456"
         );
-        multiply(
-                "6913259244",
-                "71103343"
-        );
-        multiply(
-                "498828660196",
-                "840477629533"
-        );
+        System.out.println(t2);
+//        multiply(
+//                "6913259244",
+//                "71103343"
+//        );
+//        multiply(
+//                "498828660196",
+//                "840477629533"
+//        );
+//        char c = (char)(2+'0');
+//        System.out.println(c);
     }
 }
