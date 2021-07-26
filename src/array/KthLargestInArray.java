@@ -6,16 +6,14 @@ public class KthLargestInArray {
         int lo = 0, hi = nums.length-1;
         //kth largest is (all - k + 1)th smallest
         k = nums.length - k + 1;
-        System.out.println("k:"+k );
         while (lo<=hi){
             int pivotIndex = partition(nums,lo,hi);
-            System.out.println("pivotIndex:"+pivotIndex);
             if (pivotIndex == k - 1){
                 return nums[pivotIndex];
             }else  if (pivotIndex < k - 1){
-                hi = pivotIndex - 1;
-            }else {
                 lo = pivotIndex + 1;
+            }else {
+                hi = pivotIndex - 1;
             }
         }
         return 0;
