@@ -18,27 +18,21 @@ public class GenerateMineSweepBoard {
     //assume input n are rows, m are columns
     public boolean[][] generateMineSweepBoard(int n, int m, int k) {
         boolean[][] result = new boolean[n][m];
-        while (k>0){
-            int position = new Random().nextInt(k+1);
-            int column = position % m;
-            int row = position / m;
-            //if happened to choose the one being mine already
-            // set a cell to be mine from start
-            if (result[row][column]){
-                position = 0;
-                while (position< n * m){
-                    column = position % m;
-                    row = position / m;
-                    if (!result[row][column]){
-                        result[row][column] = true;
-                        break;
-                    }
-                    position++;
-                }
-            }else{
-                result[row][column]= true;
+        int leftCells = n * m;
+        int position = 0;
+        while (leftCells>0){
+
+            //random api start from 0
+            int randomInt = new Random().nextInt(leftCells) + 1;
+            if (randomInt<k){
+                int column = position % m;
+                int row = position / m;
+                result[row][column] = true;
+                k--;
+                if (k==0) break;
             }
-            k--;
+            position++;
+            leftCells--;
         }
         return result;
     }
