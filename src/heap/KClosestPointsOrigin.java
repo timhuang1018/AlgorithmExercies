@@ -30,7 +30,7 @@ public class KClosestPointsOrigin {
         return result;
     }
 
-    //quick sort, could be use in find Kth problems
+    //quick select, could be use in find Kth problems
     public static int[][] kClosest2(int[][] points, int k) {
         int left =0, right = points.length-1;
         int index = -1;
