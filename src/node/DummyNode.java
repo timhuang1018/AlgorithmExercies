@@ -12,6 +12,31 @@ public class DummyNode {
 
     public static ListNode increment(ListNode head){
         if (head==null) return new ListNode(1,null);
+
+        ListNode dummy = new ListNode(0,head),visitor = dummy; // visitor responsible for traversing each node
+
+        while (visitor!=null){
+            if (visitor.val!=9){
+                dummy = visitor;
+            }
+            visitor = visitor.next;
+        }
+        visitor = dummy;
+
+        while (visitor!=null){
+            if (visitor.val!=9){
+                visitor.val++;
+            }else {
+                visitor.val = 0;
+            }
+            visitor = visitor.next;
+        }
+        //edge case 9->9->9, dummy never move
+        return dummy.next==head ? dummy : head;
+    }
+
+    public static ListNode increment2(ListNode head){
+        if (head==null) return new ListNode(1,null);
         //reverse list
         head = reverseList(head);
 

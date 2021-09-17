@@ -25,7 +25,6 @@ public class NextPermutation {
             }
             swap(nums, i, j);
         }
-        int j = nums.length - 1;
         //reverse
         reverse(nums, i + 1);
     }

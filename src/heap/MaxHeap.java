@@ -10,7 +10,7 @@ public class MaxHeap {
         //index of new element
         int index = heap.size();
         heap.add(n);
-        while (index > 0 || heap.get((index-1)/2) < n){
+        while (index > 0 && heap.get((index-1)/2) < n){
             swap(heap, index, (index-1)/2);
             index = (index-1)/2;
         }
