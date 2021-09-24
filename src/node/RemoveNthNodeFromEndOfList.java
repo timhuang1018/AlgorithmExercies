@@ -1,10 +1,30 @@
 package node;
 
+import helper.LinkedListGenerator;
 import helper.ListNode;
 
 public class RemoveNthNodeFromEndOfList {
 
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode fast = head;
+
+        for (int i =0; i< n; i++){
+            fast = fast.next;
+        }
+
+        ListNode slow = head;
+
+        while (fast!=null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow.next;
+    }
+
+
+        //original
+    public ListNode removeNthFromEnd2(ListNode head, int n) {
         //according to constraints, if only one node, this should be removed, and nothing left
         if(head.next==null) return null;
 
@@ -28,5 +48,11 @@ public class RemoveNthNodeFromEndOfList {
         }
 
         return keepHead.next;
+    }
+
+    public static void main(String[] args) {
+        ListNode nodes = LinkedListGenerator.fromArray(new int[]{1,2,3,4,5});
+        ListNode node = removeNthFromEnd(nodes, 2);
+        System.out.println(node.val);
     }
 }

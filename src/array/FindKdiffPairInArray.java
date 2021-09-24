@@ -35,12 +35,40 @@ import java.util.*;
  */
 public class FindKdiffPairInArray {
 
-    //TODO need two pointers
+    //two pointers
+    public static int findPair(int[] nums, int k){
+        Arrays.sort(nums);
+        int count = 0, start = 0, end = start+1;
+
+        while (start < nums.length && end < nums.length){
+            int diff = Math.abs(nums[end] - nums[start]);
+            if(diff < k){
+                end++;
+            }else if(diff > k){
+                start++;
+            }else {
+                count++;
+                start++;
+                end++;
+                while (start < nums.length && nums[start] == nums[start - 1]){
+                    start++;
+                }
+                while (end < nums.length && nums[end] == nums[end-1]){
+                    end++;
+                }
+            }
+
+            if (k==0){
+                end = start+1;
+            }
+        }
+        return count;
+    }
 
     //use hash map to avoid used value
     // meet requirement of nums[i] = nums[j]+k, identify these as map key
     // separate into k is 0 and other case
-    public int findPairs(int[] nums, int k) {
+    public int findPairs3(int[] nums, int k) {
         int count = 0;
         HashMap<Integer, Integer> map = new HashMap<>();
 
@@ -96,5 +124,9 @@ public class FindKdiffPairInArray {
         }
 
         return count;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findPair(new int[]{1,3,1,5,4} , 0));
     }
 }

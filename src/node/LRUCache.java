@@ -1,5 +1,7 @@
 package node;
 
+import helper.DListNode;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,13 @@ public class LRUCache {
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
+        //put dummy node at both end
+        this.head = new DListNode();
+        this.tail = new DListNode();
+        head.next = tail;
+        tail.pre = head;
+        System.out.println("dummy head:"+head);
+        System.out.println("dummy tail:"+tail);
     }
 
     //get key will update the least recently used key
@@ -35,13 +44,19 @@ public class LRUCache {
 
         if(node == null){
             //add to tail
-            addTail(key, value);
+            DListNode addNode = new DListNode();
+            addNode.key = key;
+            addNode.val = value;
+            map.put(key, addNode);
+            addTail(addNode);
 
             count++;
+            System.out.println("count:"+count+",map:"+map);
             if(count>capacity){
                 //remove head
-                map.remove(head.key);
-                removeHead();
+                DListNode realHead = head.next;
+                map.remove(realHead.key);
+                removeNode(realHead);
 
                 count--;
             }
@@ -54,47 +69,23 @@ public class LRUCache {
     }
 
     private void updateUsed(DListNode node) {
-        if (node!=tail){
-            if(node!=head){
-                node.pre.next = node.next;
-                node.next.pre = node.pre;
-            }else {
-                removeHead();
-            }
-            tail.next = node;
-            node.pre = tail;
-            tail = tail.next;
-        }
+        removeNode(node);
+        addTail(node);
     }
 
-    private void removeHead() {
-        head.next.pre = null;
-        head = head.next;
+    private void removeNode(DListNode node) {
+        node.next.pre = node.pre;
+        node.pre.next = node.next;
     }
 
-    private void addTail(int key, int value){
-        if(tail==null){
-            tail = new DListNode();
-            tail.key = key;
-            tail.val = value;
-            head = tail;
-        }else {
-            tail.next = new DListNode();
-            tail.next.pre = tail;
-            tail = tail.next;
-            tail.key = key;
-            tail.val = value;
-        }
-        map.put(key, tail);
+    //always insert before dummy tail
+    private void addTail(DListNode addNode){
+        tail.pre.next = addNode;
+        addNode.pre = tail.pre;
+        tail.pre = addNode;
+        addNode.next = tail;
     }
 
-
-    static class DListNode{
-        int key;
-        int val;
-        public DListNode next;
-        public DListNode pre;
-    }
 
     public static void main(String[] args) {
         LRUCache t1 = new LRUCache(2);

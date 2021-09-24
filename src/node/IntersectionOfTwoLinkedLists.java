@@ -4,11 +4,36 @@ import helper.ListNode;
 
 public class IntersectionOfTwoLinkedLists {
 
-    //walk through both linked list to get each total nodes
+
+    //use two pointer and traverse each linked list at the same time
+    //each pointer reach the end will start from another linked list to traverse again
+    //which make two pointer walk same distance, then able to compare next node if is intersection
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode pointer1 = headA, pointer2 = headB;
+
+        while (true){
+            if (pointer1==pointer2){
+                return pointer1;
+            }
+            if(pointer1!=null){
+                pointer1 = pointer1.next;
+            }else {
+                pointer1 = headB;
+            }
+            if(pointer2!=null){
+                pointer2 = pointer2.next;
+            }else{
+                pointer2 = headA;
+            }
+        }
+    }
+
+
+        //walk through both linked list to get each total nodes
     //determine which is long , short
     //make long linked list shorter until both have same length
     //walk through both at same time to compare if their next node is the same one (intersection)
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
         if(headA==null || headB==null){
             return null;
         }
