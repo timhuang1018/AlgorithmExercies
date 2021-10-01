@@ -13,13 +13,19 @@ public class SearchTreeNodeII {
         }
 
         boolean left = search(root.left, n, m);
+        if (left){
+            return true;
+        }
         boolean right = search(root.right, n, m);
+        if (right){
+            return true;
+        }
 
-        return left || right || (root == n || root == m);
+        return (root == n || root == m);
     }
 
     public static void main(String[] args) {
-        TreeNode t1 = TreeNodeGenerator.fromIntArray(new Integer[]{1,2,3,4,5});
+        TreeNode t1 = TreeNodeGenerator.fromIntegerArray(new Integer[]{1,2,3,4,5});
         TreeNode n = new TreeNode(2);
         TreeNode m = t1.left.right;
 

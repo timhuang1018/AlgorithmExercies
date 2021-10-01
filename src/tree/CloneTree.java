@@ -19,7 +19,7 @@ public class CloneTree {
     }
 
     public static void main(String[] args) {
-        TreeNode t1 = TreeNodeGenerator.fromIntArray(new Integer[]{1,2,3,4,5});
+        TreeNode t1 = TreeNodeGenerator.fromIntegerArray(new Integer[]{1,2,3,4,5});
 
         System.out.println(t1.printVal());
         System.out.println(t1.printHashcode());
