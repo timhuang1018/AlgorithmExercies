@@ -22,6 +22,8 @@ public class LowestCommonAncestorOfBinaryTree {
 
     TreeNode result;
 
+    //TODO use return node as found node
+
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         dfs(root, p, q);
         return result;

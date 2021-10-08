@@ -9,50 +9,53 @@ import helper.TreeNodeGenerator;
  *
  * Return the minimum number of cameras needed to monitor all nodes of the tree.
  */
-//TODO fix , not passing testcase no.3
 public class BinaryTreeCameras {
 
 
-    static int cameras = 0;
+    int camera = 0;
 
-    public static int minCameraCover(TreeNode root) {
-        if (root.left == null && root.right == null){
-            cameras++; //just one node need at least camera
-        }else {
-            dfsHelper(root);
+    public int minCameraCover(TreeNode root) {
+        int result = postDfs(root);
+        if(result <= 1){
+            camera++;
         }
-        return cameras;
+        return camera;
     }
 
-    public static int dfsHelper(TreeNode root){
+    public int postDfs(TreeNode root){
         if(root == null) return 0; //nothing
         if(root.left == null && root.right == null){
-            return 1; // a leaf
+            return 1; // 1 represent of no monitoring , ex. a leave
         }
 
-        int left = dfsHelper(root.left);
-        int right = dfsHelper(root.right);
+        int left = postDfs(root.left);
+        int right = postDfs(root.right);
 
-        System.out.println("left:"+left+",right:"+right);
-        if(left == 1 || right == 1){
-            cameras++;
-            return 2; // a parent of leave should put camara
+
+        if(left == 1 || right == 1){ // a parent of no monitoring should put camara
+            camera++;
+            return 3; //3 represent of camera
+        }else if (left == 3 || right == 3){
+            return 2; //2 represent of monitoring by camera
         }else{
-            return 1;
+            return 1; //child may be 2 or 0 , should be value of no monitoring
         }
     }
 
     public static void main(String[] args) {
-//        TreeNode t1 = TreeNodeGenerator.fromIntegerArray(new Integer[]{0,0,null,0,0});
-//        //expected 1
-//        System.out.println(minCameraCover(t1));
+        BinaryTreeCameras solution = new BinaryTreeCameras();
+        TreeNode t1 = TreeNodeGenerator.fromIntegerArray(new Integer[]{0,0,null,0,0});
+        //expected 1
+        System.out.println(solution.minCameraCover(t1));
 
-//        TreeNode t2 = TreeNodeGenerator.fromIntegerArray(new Integer[]{0,0,null,0,null,0,null,null,0});
-//        //expected 2
-//        System.out.println(minCameraCover(t2));
+        BinaryTreeCameras solution2 = new BinaryTreeCameras();
+        TreeNode t2 = TreeNodeGenerator.fromIntegerArray(new Integer[]{0,0,null,0,null,0,null,null,0});
+        //expected 2
+        System.out.println(solution2.minCameraCover(t2));
 
+        BinaryTreeCameras solution3 = new BinaryTreeCameras();
         TreeNode t3 = TreeNodeGenerator.fromIntegerArray(new Integer[]{0,0,null,null,0,0,null,null,0,0});
         //expected 2
-        System.out.println(minCameraCover(t3));
+        System.out.println(solution3.minCameraCover(t3));
     }
 }

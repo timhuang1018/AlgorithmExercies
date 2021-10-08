@@ -41,6 +41,8 @@ public class TreeNodeGenerator {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
 
+        System.out.println("================");
+
         int space = 1;
         while (!queue.isEmpty()){
             Queue<TreeNode> temp = new LinkedList<>();
@@ -67,7 +69,7 @@ public class TreeNodeGenerator {
             System.out.println("");
             space++;
         }
-
+        System.out.println("================");
     }
 
     public static TreeNode buildTree(Integer[] arr) {
