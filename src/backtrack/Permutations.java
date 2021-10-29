@@ -13,8 +13,44 @@ import java.util.List;
  */
 public class Permutations {
 
-
+    //swapping each number during recursion
     public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(nums, result, 0);
+        return result;
+    }
+
+    public void dfs(int[] nums, List<List<Integer>> result, int begin){
+        if (begin > nums.length){
+            return;
+        }
+
+        if (begin == nums.length){
+            List<Integer> permutation = new ArrayList<>();
+            for (int j = 0; j<nums.length; j++){
+                permutation.add(nums[j]);
+            }
+            result.add(permutation);
+            return;
+        }
+
+        for (int i = begin; i<nums.length; i++){
+            swap(nums, begin, i);
+            dfs(nums, result, begin + 1);
+            swap(nums, begin, i);
+        }
+
+    }
+
+    private void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+
+        //original
+    public List<List<Integer>> permute2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         dfs(nums, result, new ArrayList<>());
         return result;

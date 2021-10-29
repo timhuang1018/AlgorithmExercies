@@ -17,8 +17,40 @@ import java.util.List;
  */
 public class GenerateParentheses {
 
-
+    //optimized
+    //while generating , not to consider invalid value , no close ')' if not having open '('
     public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        dfsHelper(n, n, result, new StringBuilder());
+        return result;
+    }
+
+    public void dfsHelper(int open, int close, List<String> result, StringBuilder sb){
+
+        if (open == 0 && close == 0 ){
+            result.add(sb.toString());
+            return;
+        }
+
+        sb.append('(');
+        open--;
+        if (open>=0){
+            dfsHelper(open, close, result, sb);
+        }
+        open++;
+        sb.deleteCharAt(sb.length()-1);
+
+        sb.append(')');
+        close--;
+        if (open<=close){
+            dfsHelper(open, close, result, sb);
+        }
+        close++;
+        sb.deleteCharAt(sb.length()-1);
+    }
+
+    //original
+    public List<String> generateParenthesis2(int n) {
         List<String> result = new ArrayList<>();
         dfs(n, result, new StringBuilder(), 0, 0);
         return result;
