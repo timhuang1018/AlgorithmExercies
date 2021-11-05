@@ -98,7 +98,7 @@ public class TreeNodeGenerator {
         return root;
     }
 
-    private static void printLevelOrder(TreeNode root) {
+    public static void printLevelOrder(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
         StringBuilder sb = new StringBuilder();
