@@ -47,7 +47,6 @@ public class SerializeDeserializeBST {
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        System.out.println("for deserialize string"+data);
         if(data == null || data.length() == 0){
             return null;
         }

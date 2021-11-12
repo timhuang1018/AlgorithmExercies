@@ -1,4 +1,6 @@
-package node;
+package graph;
+
+import node.DummyNode;
 
 import java.util.HashMap;
 
@@ -30,13 +32,53 @@ import java.util.HashMap;
  */
 public class CopyListWithRandomPointer {
 
-    //TODO: could create a new list linking origin and its copy as next
+    //Optimized : create a new list linking origin and its copy as next
     //this result in random could reference to random.next (constant to find)
+    public Node copyRandomList(Node head) {
+        if (head == null){
+            return null;
+        }
+        //create all next to be a copy node
+        Node visitor = head;
+        while (visitor != null){
+            Node temp = visitor.next;
+            visitor.next = new Node(visitor.val);
+            visitor.next.next = temp;
+            visitor = temp;
+        }
+
+        //make copy node have random node point to copy one
+        visitor = head;
+        while (visitor != null){
+            if (visitor.random != null){
+                visitor.next.random = visitor.random.next;
+            }
+            visitor = visitor.next.next;
+        }
+
+
+        //extrac copy and restore original node list
+        Node dummy = new Node(0), copyVisitor = dummy;
+        visitor = head;
+        while (visitor!=null){
+            Node temp = visitor.next.next;
+            Node copy = visitor.next;
+            copyVisitor.next = copy;
+            copyVisitor = copy;
+
+            visitor.next = temp;
+
+            visitor = visitor.next;
+        }
+
+
+        return dummy.next;
+    }
 
     //hash map to store mapping from origin to copy
     //walk through origin list and use ref to make copy have relative next and random
     //constant to find random result in O(n) time complexity
-    public Node copyRandomList(Node head) {
+    public Node copyRandomList3(Node head) {
 
         HashMap<Node, Node> map = new HashMap<>();
 
