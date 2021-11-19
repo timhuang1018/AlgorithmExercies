@@ -4,6 +4,8 @@ import helper.DataLogger;
 
 public class SpiralMatrixII {
 
+    //TODO user border to do solve this again
+
     public static int[][] generateMatrix(int n) {
         int[][] grid = new int[n][n];
         //moving order: right -> down -> left -> up -> right -> ...

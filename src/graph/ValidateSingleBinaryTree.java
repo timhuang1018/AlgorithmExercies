@@ -2,58 +2,80 @@ package graph;
 
 import helper.TreeNode;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ValidateSingleBinaryTree {
 
+
+    public boolean isBinaryTree(List<TreeNode> nodes){
+        Set<TreeNode> roots = new HashSet<>(), seen = new HashSet<>();
+
+        for (TreeNode node : nodes){
+            if (seen.contains(node)) continue;
+            Set<TreeNode> curSeen = new HashSet<>();
+            if (hasCycle(node, roots, curSeen)){
+                return false;
+            }
+            seen.addAll(curSeen);
+            roots.add(node);
+        }
+        return roots.size() == 1 && seen.size() == nodes.size();
+    }
+
+    private boolean hasCycle(TreeNode node, Set<TreeNode> roots, Set<TreeNode> curSeen) {
+        if (node == null) return false;
+        if (curSeen.contains(node)) return true;
+
+        curSeen.add(node);
+        roots.remove(node);
+        return hasCycle(node.left, roots, curSeen) || hasCycle(node.right, roots, curSeen);
+    }
+
     //to be a valid binary tree
-    //1.every node should appear just once -> only be child once
-    //2.need to connect all nodes -> find the top, able to visit all
-    public boolean isBinaryTree(List<TreeNode> nodes) {
+    //count number of in-edge while dfs all nodes in list,
+    //check node in map after recursion
+    //1.have multiple nodes with zero in-edge => invalid, only one root node
+    //2.any node have more than one in-edge => invalid, means multiple nodes pointing same child
+    public boolean isBinaryTree2(List<TreeNode> nodes) {
         if (nodes == null || nodes.size() == 0){
             return false;
         }
-        Set<TreeNode> childSet = new HashSet<>();
-        TreeNode root = nodes.get(0);
-        childSet.add(root);
+        //key are node
+        //value are number of in-edge
+        Map<TreeNode, Integer> map = getNodeInEdge(nodes);
 
+        TreeNode root = null;
         for (TreeNode node : nodes){
-            if (node.left!=null){
-                if (childSet.contains(node.left)){
-                    return false;
-                }else {
-                    childSet.add(node.left);
-                }
-                if (root == node.left){
+
+            if (!map.containsKey(node)){
+                if (root==null){
                     root = node;
-                }
-            }
-            if (node.right!=null){
-                if (childSet.contains(node.right)){
-                    return false;
                 }else {
-                    childSet.add(node.right);
+                    //multiple root
+                    return false;
                 }
-                if (root == node.right){
-                    root = node;
+            }else {
+                // multiple parent point to same node
+                if (map.get(node)>1){
+                    return false;
                 }
             }
         }
-
-        return findTreeSize(root) == nodes.size();
+        return root != null ;
     }
 
-    public int findTreeSize(TreeNode node){
-        if (node == null){
-            return 0;
+    private Map<TreeNode, Integer> getNodeInEdge(List<TreeNode> nodes) {
+        //value are number of in-edge
+        Map<TreeNode, Integer> map = new HashMap<>();
+        for (TreeNode node : nodes){
+            if(node.left != null){
+                map.put(node.left, map.getOrDefault(node.left,0) + 1);
+            }
+            if(node.right != null){
+                map.put(node.right, map.getOrDefault(node.right,0) + 1);
+            }
         }
-        int left = findTreeSize(node.left);
-        int right = findTreeSize(node.right);
-
-        return left + right + 1;
+        return map;
     }
 
 

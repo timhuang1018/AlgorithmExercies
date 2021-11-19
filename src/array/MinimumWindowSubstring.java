@@ -17,13 +17,18 @@ public class MinimumWindowSubstring {
         HashMap<Character,Integer> map = getCharCount(t);
         int left = 0, right = 0, missing = map.size(), tempL=0, tempR = Integer.MAX_VALUE;
         while (right < s.length()){
+            //joining if not meeting requirement (missing equal to 0)
             if (missing>0){
                 char n =s.charAt(right);
                 if (map.containsKey(n)){
                     map.put(n,map.get(n)-1);
                     if (map.get(n)==0) missing--;
                 }
-            }else {
+            }
+            //leaving
+            //missing might be equal to 0, and may have redundant character
+            //remove it will check result again
+            else {
                 char c = s.charAt(left);
                 if (map.containsKey(c)){
                     map.put(c,map.get(c)+1);
@@ -31,13 +36,17 @@ public class MinimumWindowSubstring {
                 }
                 left++;
             }
+            //after finding a candidate
+            //then if moving left is removing needed char, will make missing from 0 to -1
+            //which make right move again.
 
             if (missing==0){
                 if (right - left < tempR - tempL){
                     tempL = left;
                     tempR = right;
                 }
-            } else{
+            }
+            else{
                 right++;
             }
         }
