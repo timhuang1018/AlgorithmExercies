@@ -82,7 +82,8 @@ public class DecodeString {
         //expected "aaabcbc"
         System.out.println(t2);
 
-        String t3 = decodeString("aa3[c]");
-        System.out.println(t3);
+        //expected abccdcdcdxyz
+        String t4 = decodeString("abc3[cd]xyz");
+        System.out.println(t4);
     }
 }
