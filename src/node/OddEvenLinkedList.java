@@ -4,6 +4,8 @@ import helper.DataLogger;
 import helper.LinkedListGenerator;
 import helper.ListNode;
 
+import java.util.LinkedList;
+
 public class OddEvenLinkedList {
 
     public static ListNode oddEvenList(ListNode head) {
@@ -22,6 +24,7 @@ public class OddEvenLinkedList {
 
     public static void main(String[] args) {
         ListNode t1 = oddEvenList(LinkedListGenerator.fromArray(new int[]{1,2,3,4,5}));
+        new LinkedList<Integer>().remove();
         DataLogger.printLinkedList(t1);
 
         ListNode t2 = oddEvenList(LinkedListGenerator.fromArray(new int[]{2,1,3,5,6,4,7}));
