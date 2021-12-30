@@ -9,39 +9,33 @@ public class MinimumTimeToCompleteTasks {
      *              "taskId|prerequisite|time" or just "taskId|time" if no prerequisite task
      * @return minimum of time unit need to complete tasks
      */
-    //use BFS because each level(period) could parallel the tasks which have same 0 in-degree
+    int leastTime = 0;
     public int minTime(String[] tasks){
-        int minTime = 0;
         Map<String, Integer> timeTable = new HashMap<>();
         Map<String, Integer> parentCount = new HashMap<>();
         //build graph along with time table and parent count (in-degree)
         Map<String, Set<String>> graph = buildGraph(tasks, timeTable, parentCount);
 
-        Queue<String> queue = new LinkedList<>();
-        for (String task : graph.keySet()){
-            if (!parentCount.containsKey(task) || parentCount.get(task)==0){
-                queue.offer(task);
+        for(String task : parentCount.keySet()){
+            if(parentCount.get(task) == 0){
+                dfs(task, graph, timeTable, timeTable.get(task));
             }
         }
-        while (!queue.isEmpty()){
-            int size = queue.size();
-            //compare each level , only max time in this level will be record
-            int maxInPeriod = Integer.MIN_VALUE;
-            for (int i =0; i<size; i++){
-                String node = queue.poll();
-                maxInPeriod = Math.max(maxInPeriod, timeTable.get(node));
 
-                for (String child: graph.get(node)){
-                    parentCount.put(child, parentCount.get(child) - 1);
-                    if(parentCount.get(child)==0){
-                        queue.offer(child);
-                    }
-                }
+        return leastTime;
+    }
+
+    private void dfs(String task, Map<String, Set<String>> graph, Map<String, Integer> timeTable, int time) {
+        if (graph.get(task).isEmpty()){ // find the final task and keep the maximum
+            leastTime = Math.max(leastTime, time);
+        }else{
+            //backtrack to visit all possible path to find the maximum time
+            for (String childTask : graph.get(task)){
+                time += timeTable.get(childTask);
+                dfs(childTask, graph, timeTable, time);
+                time -= timeTable.get(childTask);
             }
-            minTime += maxInPeriod;
         }
-
-        return minTime;
     }
 
 
@@ -56,6 +50,7 @@ public class MinimumTimeToCompleteTasks {
             //no prerequisite task
             if (segments.length<3){
                 timeTable.put(segments[0], Integer.parseInt(segments[1]));
+                parentCount.put(segments[0],0);
             }else {
                 timeTable.put(segments[0], Integer.parseInt(segments[2]));
 
@@ -77,7 +72,7 @@ public class MinimumTimeToCompleteTasks {
         MinimumTimeToCompleteTasks solution = new MinimumTimeToCompleteTasks();
 
         //expected 12 , D -> C -> B -> A
-        System.out.println(solution.minTime(new String[]{"A|B C|4","B|C D|3","C|D|3","D|2"}));
+//        System.out.println(solution.minTime(new String[]{"A|B C|4","B|C D|3","C|D|3","D|2"}));
 
         //expected 9 , D -> C&B in parallel -> A , 2 + max(1,3) + 4 = 9
         System.out.println(solution.minTime(new String[]{"A|B C|4","B|D|1","C|D|3","D|2"}));
