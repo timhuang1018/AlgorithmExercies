@@ -37,6 +37,7 @@ public class PathSumII {
         if (root == null){
             return result;
         }
+
         this.targetSum = targetSum;
         List<Integer> temp = new ArrayList<>();
         dfs(root, targetSum, temp, result);

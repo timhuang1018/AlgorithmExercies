@@ -19,6 +19,8 @@ public class RandomSelector {
     private ArrayList<Pair> list = new ArrayList<>();
     private int totalWeight = 0;
 
+    //TODO consider binary search to optimize
+
     public int readNextFromStream(Pair n) {
         list.add(n);
         totalWeight += n.weight;
