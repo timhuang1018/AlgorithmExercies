@@ -11,6 +11,7 @@ public class NumberOfProvinces {
 
     public int findCircleNum(int[][] isConnected) {
         Set<Integer> visited = new HashSet<>();
+
         int row = 0, n = isConnected.length;
         int province = 0;
 

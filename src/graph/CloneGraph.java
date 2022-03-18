@@ -9,7 +9,6 @@ public class CloneGraph {
 
     public Node cloneGraph(Node node) {
         Map<Node, Node> map = new HashMap<>();
-
         return dfs(node, map);
     }
 

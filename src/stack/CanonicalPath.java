@@ -13,6 +13,7 @@ public class CanonicalPath {
         String canonical = "/";
         Stack<Character> stack = new Stack<>();
         stack.push('/');
+        // //ss/../
         for (int i = 1; i<path.length; i++){
             char c = path[i];
             if (c=='/'){
